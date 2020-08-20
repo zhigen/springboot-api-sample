@@ -1,7 +1,9 @@
-package com.zglu.api.common;
+package com.zglu.api.config;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
+import com.zglu.api.common.RestControllerMapping;
+import com.zglu.api.common.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.GetMapping;

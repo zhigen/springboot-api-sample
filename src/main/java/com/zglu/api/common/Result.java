@@ -20,6 +20,14 @@ public class Result<T> {
     private T data;
 
     public static <T> Result<T> success(T t) {
-        return new Result<T>().setStatus(200).setMessage("成功").setData(t);
+        return new Result<T>().setStatus(ResultCode.SUCCESS.getStatus()).setMessage(ResultCode.SUCCESS.getMessage()).setData(t);
+    }
+
+    public static <T> Result<T> error(BaseException e) {
+        return new Result<T>().setStatus(e.getStatus()).setMessage(e.getMessage());
+    }
+
+    public static <T> Result<T> error() {
+        return new Result<T>().setStatus(ResultCode.SERVER_ERROR.getStatus()).setMessage(ResultCode.SERVER_ERROR.getMessage());
     }
 }
