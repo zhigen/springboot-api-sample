@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.util.Map;
+
 /**
  * @author zglu
  */
@@ -29,5 +31,9 @@ public class Result<T> {
 
     public static <T> Result<T> error() {
         return new Result<T>().setStatus(ResultCode.SERVER_ERROR.getStatus()).setMessage(ResultCode.SERVER_ERROR.getMessage());
+    }
+
+    public static <T> Result<T> error(Map<String, Object> m) {
+        return new Result<T>().setStatus(Integer.parseInt(m.get("status") + "")).setMessage(m.get("message") + "");
     }
 }
