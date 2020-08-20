@@ -27,6 +27,7 @@ import java.util.List;
 @EnableSwagger2
 @EnableKnife4j
 public class SwaggerConfig {
+    private static final String MODELREF_TYPE = "统一响应«Void»";
 
     @Bean
     public ApiInfo apiInfo() {
@@ -47,9 +48,9 @@ public class SwaggerConfig {
 
         // 定义通用响应状态
         List<ResponseMessage> responseMessageList = new ArrayList<>();
-        responseMessageList.add(new ResponseMessageBuilder().code(400).message("4XX为错误的请求，请检查客户端").responseModel(new ModelRef("统一响应«Void»")).build());
-        responseMessageList.add(new ResponseMessageBuilder().code(500).message("5XX为服务器异常，请联系管理员").responseModel(new ModelRef("统一响应«Void»")).build());
-        responseMessageList.add(new ResponseMessageBuilder().code(10000).message("XXXXX为业务异常，请查看提示信息").responseModel(new ModelRef("统一响应«Void»")).build());
+        responseMessageList.add(new ResponseMessageBuilder().code(400).message("4XX为错误的请求，请检查客户端").responseModel(new ModelRef(MODELREF_TYPE)).build());
+        responseMessageList.add(new ResponseMessageBuilder().code(500).message("5XX为服务器异常，请联系管理员").responseModel(new ModelRef(MODELREF_TYPE)).build());
+        responseMessageList.add(new ResponseMessageBuilder().code(10000).message("XXXXX为业务异常，请查看提示信息").responseModel(new ModelRef(MODELREF_TYPE)).build());
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .globalOperationParameters(parameterList)
@@ -61,7 +62,7 @@ public class SwaggerConfig {
                 .apiInfo(apiInfo)
                 .select()
                 .paths(PathSelectors.any())
-                .apis(RequestHandlerSelectors.basePackage("com.zglu.api.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.zglu.api"))
                 .build();
     }
 }
