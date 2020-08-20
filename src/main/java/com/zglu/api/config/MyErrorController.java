@@ -1,5 +1,6 @@
 package com.zglu.api.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSupport;
 import com.zglu.api.common.Result;
@@ -10,8 +11,10 @@ import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.ServletWebRequest;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,32 +26,18 @@ import java.util.Map;
  *
  * @author zglu
  */
-@Api(tags = "1.错误配置")
+@Api(tags = "1.错误拦截")
 @ApiSupport(order = 1)
 @Controller
+@RequestMapping("/error")
 @AllArgsConstructor
 public class MyErrorController implements ErrorController {
-    /**
-     * 错误入口
-     */
-    private static final String ERROR_PATH = "/error";
     private ErrorAttributes errorAttributes;
 
     @Override
     public String getErrorPath() {
         // 指定错误入口
-        return ERROR_PATH;
-    }
-
-    /**
-     * 拦截原始错误页面，处理信息后输出内容到页面
-     *
-     * @param request 页面请求
-     */
-    @GetMapping(value = ERROR_PATH, produces = "text/html")
-    public void error(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Map<String, Object> m = getErrorAttributes(request);
-        response.getWriter().write(Result.error(m).toString());
+        return "/error";
     }
 
     /**
@@ -57,13 +46,27 @@ public class MyErrorController implements ErrorController {
      * @param request 接口请求
      * @return 统一响应对象
      */
+    @GetMapping
     @ResponseBody
-    @GetMapping(value = ERROR_PATH)
     @ApiOperation("1.错误请求")
     @ApiOperationSupport(order = 1)
-    public Result<Void> restError(HttpServletRequest request) {
+    public Result<Void> error(HttpServletRequest request) {
         Map<String, Object> m = getErrorAttributes(request);
         return Result.error(m);
+    }
+
+    /**
+     * 拦截原始错误页面，处理信息后输出内容到页面
+     *
+     * @param request 页面请求
+     */
+    @ApiIgnore
+    @GetMapping(produces = "text/html")
+    public void errorHtml(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Map<String, Object> m = getErrorAttributes(request);
+        ObjectMapper objectMapper = new ObjectMapper();
+        String html = objectMapper.writeValueAsString(Result.error(m));
+        response.getWriter().write(html);
     }
 
     /**

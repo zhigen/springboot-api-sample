@@ -26,8 +26,7 @@ public class ExceptionController {
     @GetMapping("/server")
     @ApiOperation("2.服务器异常")
     @ApiOperationSupport(order = 2)
-    public Result<Void> server() {
-        int i = 1 / 0;
-        return Result.success(null);
+    public Result<Integer> server() {
+        return Result.success(Integer.parseInt("a"));
     }
 }
