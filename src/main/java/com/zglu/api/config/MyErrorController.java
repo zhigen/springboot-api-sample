@@ -26,7 +26,7 @@ import java.util.Map;
  *
  * @author zglu
  */
-@Api(tags = "1.错误拦截")
+@Api(tags = "1. 错误拦截")
 @ApiSupport(order = 1)
 @Controller
 @RequestMapping("/error")
@@ -48,7 +48,7 @@ public class MyErrorController implements ErrorController {
      */
     @GetMapping
     @ResponseBody
-    @ApiOperation("1.错误请求")
+    @ApiOperation("1. 错误请求")
     @ApiOperationSupport(order = 1)
     public Result<Void> error(HttpServletRequest request) {
         Map<String, Object> m = getErrorAttributes(request);

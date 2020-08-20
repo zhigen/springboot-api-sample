@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 /**
  * @author zglu
  */
-@Api(tags = "2.接口异常")
+@Api(tags = "2. 接口异常")
 @ApiSupport(order = 2)
 @RestControllerMapping("/exception")
 public class ExceptionController {
 
     @GetMapping("/business")
-    @ApiOperation("1.业务异常")
+    @ApiOperation("1. 业务异常")
     @ApiOperationSupport(order = 1)
     public Result<Void> business() {
         MyAssert.isTrue(false, ResultCode.BUSINESS_ERROR);
@@ -24,7 +24,7 @@ public class ExceptionController {
     }
 
     @GetMapping("/server")
-    @ApiOperation("2.服务器异常")
+    @ApiOperation("2. 服务器异常")
     @ApiOperationSupport(order = 2)
     public Result<Integer> server() {
         return Result.success(Integer.parseInt("a"));
