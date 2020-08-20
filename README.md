@@ -1,7 +1,7 @@
 简体中文 | [English](/README.en-US.md)
 
-# springboot-web-sample
-使用springboot框架的java-web项目，maven构建，作为后续springboot项目的基础项目
+# springboot-api-sample
+使用springboot框架的java-web项目，集成knife4j，生成接口文档。
 
 ![logo](https://raw.githubusercontent.com/zhigen/specification-document/master/static/logo.png "logo tip")
 
@@ -21,14 +21,13 @@
 
 <a id="2"></a>
 ## 2. 使用
-* 拉取本项目后，修改项目名，以此项目为基础直接进行开发。
 * 启动后，打开以下网址测试
-* http://localhost:8081
+* http://localhost:8082/doc.html
 
 <a id="3"></a>
 ## 3. 相关项目
 [specification-document](https://github.com/zhigen/specification-document)<br/>
-[springboot-sample](https://github.com/zhigen/springboot-sample)<br/>
+[springboot-web-sample](https://github.com/zhigen/springboot-web-sample)<br/>
 
 <a id="4"></a>
 ## 4. 维护者
@@ -36,7 +35,7 @@
 
 <a id="5"></a>
 ## 5. 贡献
-[Pull Request](https://github.com/zhigen/springboot-web-sample/pulls)
+[Pull Request](https://github.com/zhigen/springboot-api-sample/pulls)
 
 <a id="6"></a>
 ## 6. 许可证
