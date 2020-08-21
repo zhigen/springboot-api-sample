@@ -14,4 +14,10 @@ public class MyAssert {
             throw new BaseException(code);
         }
     }
+
+    public static void isTrue(boolean expression, ResultCode code, String tips) {
+        if (!expression) {
+            throw new BaseException(code, tips);
+        }
+    }
 }

@@ -19,7 +19,7 @@ public class ExceptionController {
     @ApiOperation("1. 业务异常")
     @ApiOperationSupport(order = 1)
     public Result<Void> business() {
-        MyAssert.isTrue(false, ResultCode.BUSINESS_ERROR);
+        MyAssert.isTrue(false, ResultCode.BUSINESS_ERROR, "自定义的业务异常提示");
         return Result.success(null);
     }
 

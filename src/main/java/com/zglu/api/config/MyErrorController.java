@@ -7,6 +7,7 @@ import com.zglu.api.common.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,7 @@ import java.util.Map;
  *
  * @author zglu
  */
+@Log4j2
 @Api(tags = "1. 错误拦截")
 @ApiSupport(order = 1)
 @Controller
@@ -64,8 +66,9 @@ public class MyErrorController implements ErrorController {
     @GetMapping(produces = "text/html")
     public void errorHtml(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String, Object> m = getErrorAttributes(request);
-        ObjectMapper objectMapper = new ObjectMapper();
-        String html = objectMapper.writeValueAsString(Result.error(m));
+        Result<Void> result = Result.error(m);
+        String html = new ObjectMapper().writeValueAsString(result);
+        response.setContentType("text/html;charset=UTF-8");
         response.getWriter().write(html);
     }
 
@@ -77,6 +80,8 @@ public class MyErrorController implements ErrorController {
      */
     private Map<String, Object> getErrorAttributes(HttpServletRequest request) {
         ServletWebRequest servletWebRequest = new ServletWebRequest(request);
-        return this.errorAttributes.getErrorAttributes(servletWebRequest, true);
+        Map<String, Object> map = this.errorAttributes.getErrorAttributes(servletWebRequest, true);
+        log.warn("错误请求\n{}", map);
+        return map;
     }
 }

@@ -18,22 +18,52 @@ public class Result<T> {
     private int status;
     @ApiModelProperty("响应信息")
     private String message;
+    @ApiModelProperty("响应提示")
+    private String tips;
     @ApiModelProperty("响应数据")
     private T data;
+    @ApiModelProperty("错误原因")
+    private String error;
+    @ApiModelProperty("错误堆栈")
+    private Object trace;
+
+    public Result(ResultCode code) {
+        status = code.getStatus();
+        message = code.getMessage();
+        tips = code.getTips();
+    }
+
+    public Result(BaseException e) {
+        status = e.getStatus();
+        message = e.getMessage();
+        tips = e.getTips();
+    }
 
     public static <T> Result<T> success(T t) {
-        return new Result<T>().setStatus(ResultCode.SUCCESS.getStatus()).setMessage(ResultCode.SUCCESS.getMessage()).setData(t);
+        return new Result<T>(ResultCode.SUCCESS).setData(t);
+    }
+
+    public static <T> Result<T> success(T t, String tips) {
+        return new Result<T>(ResultCode.SUCCESS).setData(t).setTips(tips);
     }
 
     public static <T> Result<T> error(BaseException e) {
-        return new Result<T>().setStatus(e.getStatus()).setMessage(e.getMessage());
+        return new Result<T>(e).setError(e.getClass().getTypeName()).setTrace(e.getStackTrace());
     }
 
-    public static <T> Result<T> error() {
-        return new Result<T>().setStatus(ResultCode.SERVER_ERROR.getStatus()).setMessage(ResultCode.SERVER_ERROR.getMessage());
+    public static <T> Result<T> error(Exception e) {
+        return new Result<T>(ResultCode.SERVER_ERROR).setMessage(e.getMessage()).setError(e.getClass().getTypeName()).setTrace(e.getStackTrace());
+    }
+
+    public static <T> Result<T> error(ResultCode code, Exception e) {
+        return new Result<T>(code).setMessage(e.getMessage()).setError(e.getClass().getTypeName()).setTrace(e.getStackTrace());
     }
 
     public static <T> Result<T> error(Map<String, Object> m) {
-        return new Result<T>().setStatus(Integer.parseInt(m.get("status") + "")).setMessage(m.get("message") + "");
+        return new Result<T>(ResultCode.REQUEST_ERROR)
+                .setStatus(Integer.parseInt(m.get("status") + ""))
+                .setMessage(m.get("message") + "")
+                .setError(m.get("error") + "")
+                .setTrace(m.get("trace"));
     }
 }
