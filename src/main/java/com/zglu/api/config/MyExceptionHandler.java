@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import javax.validation.ConstraintViolationException;
+
 /**
  * 拦截控制器异常统一处理
  *
@@ -36,7 +38,7 @@ public class MyExceptionHandler {
      * @param e 参数异常
      * @return 统一响应
      */
-    @ExceptionHandler({MethodArgumentTypeMismatchException.class, MissingServletRequestParameterException.class})
+    @ExceptionHandler({MethodArgumentTypeMismatchException.class, MissingServletRequestParameterException.class, ConstraintViolationException.class})
     public Result<Void> requestException(Exception e) {
         log.warn("错误请求", e);
         return Result.error(ResultCode.REQUEST_ERROR, e);
